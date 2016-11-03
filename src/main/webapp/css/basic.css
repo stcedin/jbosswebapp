@@ -1,0 +1,17 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	background-image: url("../img/streetoflight.jpg");
+	color: red;
+}
+h1 {
+  size: 20px;
+}
+
+p {
+	size: 10px;
+}
+
+footer {
+	font-style: italic;
+}
