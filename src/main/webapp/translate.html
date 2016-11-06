@@ -9,52 +9,50 @@
 <script>
 
   var title = '';
-  function getRandom() {  
+  function getRandom(form) {  
 	     var root = "https://jsonplaceholder.typicode.com";
+	     var seed = form.seed.value;
+
          $.ajax({
              type : "GET",
              dataType : "text",
                 async : true,
-                //url : root + '/posts/1',
-                url : root + '/photos/67',
+                url : root + '/photos/' + seed,
+         
                 error : function(request, status, error) {
                     $("p.result").html("Failed to invoke directions rest service: " + error);
                 },
                 success : function(data) {
                     var object = JSON.parse(data);
-                    //var title = object.title;
                     title = object.title;
-                    alert("Title before: " + title);
                     var image = object.url;
                     $("p.source").html(title);
+                    $("p.translation").html('');
                     //var imgsrc = "<img src=\"" + image + "\"/>";
                     //$("p.body").html(imgsrc);
                 }
          });
   }
 
-  function translate() {
+  
+  function getTranslation(form) {
 	     var sourceLang = "auto";
 	     var targetLang = "en";
-	     //var sourceText = $("p.source").text();
-	     alert("Title after: " + title);
-	     alert("src: "  + title);
-	     var sourceText = title;
-	     var urlxx = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
+	     var sourceText = $("p.source").text();
+
+	     var urlTrans = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
 	            + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
 
          $.ajax({
              type : "GET",
              dataType : "text",
                 async : true,
-                //url : root + '/posts/1',
-                url : urlxx,
+                url : urlTrans,
                 error : function(request, status, error) {
                     $("p.result").html("Failed to invoke directionsXXX rest service: " + error);
                 },
                 success : function(data) {
 					<!-- https://ctrlq.org/code/19909-google-translate-api -->
-
 					var idxStart = data.indexOf('"');	
 				  	var idxEnd = data.indexOf('"', idxStart+1);
 	        		var translatedText = data.substring(idxStart+1, idxEnd);
@@ -64,10 +62,6 @@
     }
 
     $(document).ready(function() {
-        //$("#generate-button").click(function() {
-        getRandom();
-        translate();
-        //});
     });
 
     
@@ -77,8 +71,25 @@
 
 </head>
 <body>
+	<p>This page uses a rest service to generate some random non english expressions from a 
+	publicly available rest service, provided for learning purposes.  The text returned is
+	then fired through google translate to determing the English</p>
+	<p>
+		<form name="generate">
+			<label>Select a random seeding:</label><br>
+			<input type="number" name="seed" min="1" max="50" id="seed"><br>
+			<input type="button" value="Generate Expression" id="generate" onClick="getRandom(this.form)">
+		</form>
+	<p>
+	 
 	<p class="source"></p>
-	<!--<p class="body"></p> -->
+
+	<p>
+		<form name="translate">
+			<input type="button" value="Translate" id="translate" onClick="getTranslation()">
+		</form>
+	<p>
+
 	<p class="translation"></p>
 </body>
 </html>
