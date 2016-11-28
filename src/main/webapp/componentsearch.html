@@ -10,14 +10,14 @@
 
 <script>
 
-  function searchSites(form) {  
+  function searchSites(form) {
          $("p.result").html("Search Running...");
 <!-- https://stcedin.github.io/bikesearch.html -->
          var item = form.item.value;
          item = item.replace(' ', '+');
          var typeSelected = document.querySelector('input[name = "select"]:checked').value;
-         
- 		 var bikeSites = ["http://www.chainreactioncycles.com/s?q=" + item, 
+
+ 		 var bikeSites = ["http://www.chainreactioncycles.com/s?q=" + item,
  						"http://www.wiggle.co.uk/" + item,
  						"http://www.fatbirds.co.uk/advancedsearch.aspx?Term=" + item,
 						"http://bikes.merlincycles.com/search#?w=" + item,
@@ -37,20 +37,26 @@
 
  		for (var i=0; i < sites.length; i++) {
  	 		var url=sites[i];
- 			var win = window.open(url, '_blank');
- 			//Need to use an event handler for this
- 			//win.focus();
+ 	 		openCompWindow(url);
  		}
  		$("p.result").html("Searching complete");
-  }
+  };
 
-    $(document).ready(function() {
+  	function openCompWindow(url) {
+  		window.open(url, '_blank');
+		//var win = window.open(url, '_blank');
+ 		//Need to use an event handler for this
+ 		//win.focus();
+  	};
+
+
         <!--
+    $(document).ready(function() {
         $("#searchButton").click(function() {
               searchCR(item);
         });
-        -->
     });
+    -->
 
   </script>
 
@@ -65,7 +71,7 @@
 	<h1>Component Search</h1>
 	<p>Select the category of component to search, and it will load the results from popular web sites.</p>
 	<form name="search">
-		<fieldset>	
+		<fieldset>
 			<div class="formlayout">
 	  			<input class="radio-input" type="radio" name="select" value="bike" id="bike" checked>
 	  			<label class="radio-label">Bike</label>
@@ -74,10 +80,10 @@
 	  			<label for="item">Search Item:</label>
 	  			<input type="text" name="item" id="item">
 	  			<input class="compbutton" type="button" value="Search" onClick="searchSites(this.form)">
-			</div>  
-		</fieldset>  
+			</div>
+		</fieldset>
 	</form>
-	
+
 	<p class="result"></p>
 </body>
 </html>
